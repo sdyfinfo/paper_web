@@ -41,9 +41,9 @@ const ARTDELETE = 16;
 const COUPADD = 17;
 const COUPEDIT = 18;
 const COUPDELETE = 19;
-const PRICEADD = 20;
-const PRICEEDIT = 21;
-const PRICEDELETE = 22;
+const NEWSTYPEADD = 20;
+const NEWSTYPEEDIT = 21;
+const NEWSTYPEDELETE = 22;
 const ABROADADD = 23;
 const ABROADDELETE = 24;
 const MENUADD = 26;
@@ -66,9 +66,9 @@ const QRCODEADD = 41;
 const QRCODEDELETE = 42;
 const IMAGERESULTDELETE = 43;
 const IMAGERESULTEDIT = 44;
-const SPADD = 45;
-const SPEDIT = 46;
-const SPDELETE = 47;
+const NEWSADD = 45;
+const NEWSEDIT = 46;
+const NEWSDELETE = 47;
 const COUNTYADD = 48;
 const COUNTYDELETE = 49;
 const REGDELETE = 50;
@@ -127,6 +127,12 @@ var userMenuList = {
         {"menuid":"evamanager","menutype":1,sort:"0", power:"1", "menuname":"资金管理","url":"", menuicon:"icon-envelope-letter",
             "menulist":[
                 {"menuid":"evaluation","menutype":0,sort:"0", power:"1", "menuname":"资金查询","url":"money", menuicon:"icon-home"},
+            ]
+        },
+        {"menuid":"news","menutype":1,sort:"0", power:"1", "menuname":"行业新闻","url":"", menuicon:"icon-envelope-letter",
+            "menulist":[
+                {"menuid":"newstype","menutype":0,sort:"0", power:"1", "menuname":"新闻分类","url":"newstype", menuicon:"icon-home"},
+                {"menuid":"newscontent","menutype":0,sort:"1", power:"1", "menuname":"新闻内容","url":"newscontent", menuicon:"icon-home"},
             ]
         }
     ]

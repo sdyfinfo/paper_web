@@ -240,6 +240,7 @@ function cardDownloadEnd(flg, result, type){
         if(result && result.code != SUCCESS){
             alert = result.message;
             alertDialog(alert);
+            App.unblockUI('#lay-out');
             return;
         }
         $('#send-card').modal('hide');

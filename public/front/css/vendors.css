@@ -1455,7 +1455,7 @@
     margin:0 -10px
 }
 .el-menu {
-    border-right:1px solid #e6e6e6;
+    /*border-right:1px solid #e6e6e6;*/
     list-style:none;
     position:relative;
     margin:0;
@@ -1627,7 +1627,7 @@
     vertical-align:middle
 }
 .el-menu-item.is-active {
-    color:#409eff
+    /*color:#409eff*/
 }
 .el-menu-item.is-active i {
     color:inherit

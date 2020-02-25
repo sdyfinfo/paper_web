@@ -26,7 +26,7 @@ function makeMenu(data){
                     '<ul class="sub-menu">'
         }else{
             menuMake += '<li class="nav-item">' +
-                '<a href="' + data[i].url + '?username=' + loginSucc.userid + '" class="nav-link nav-toggle" data-id="' + data[i].menuid + '">' +
+                '<a href="' + data[i].url + '" class="nav-link nav-toggle" data-id="' + data[i].menuid + '">' +
                     '<i class="'+ data[i].menuicon +'"></i>' +
                     '<span class="title"> '+ data[i].menuname +' </span>' +
                 '</a>'
@@ -40,6 +40,40 @@ function makeMenu(data){
     }
     menuMake += "</li>";
 
+}
+
+$(".page-sidebar-menu").on("click",  "a", function(e){
+    e.preventDefault();
+    var url = $(this).attr("href");
+    if(url == "javascript:;") return;
+    creatFormSubmit(url);
+});
+
+$("#password").on("click", function(){
+    creatFormSubmit("password");
+});
+
+$("#main, #logo").on("click", function(){
+    creatFormSubmit("rmain");
+});
+
+function creatFormSubmit(url){
+    var token = localStorage.getItem("token");
+    var form = document.createElement('form');
+    form.action = url;
+    form.method = 'post';
+    var input = document.createElement('input');
+    input.type = 'hidden';
+    input.name = 'username';
+    input.value = loginSucc.userid;
+    form.appendChild(input);
+    var input1 = document.createElement('input');
+    input1.type = 'hidden';
+    input1.name = 'token';
+    input1.value = token;
+    form.appendChild(input1);
+    $(document.body).append(form);
+    form.submit();
 }
 
 function makeFunction(menu,data){
@@ -72,20 +106,4 @@ function makeEdit(menu,data,id){
             }
         }
     }
-}
-
-function logOutEnd(flg, result){
-    if(flg){
-        if(result.retcode == SUCCESS){
-            //跳转页面
-            var form = $("<form></form>").attr("action", "/logout").attr("method", "get");
-            form.append($("<input/>").attr("type", "hidden").attr("name", "username").attr("value", loginSucc.userid));
-            form.appendTo('body').submit().remove();
-        }else{
-            alertDialog(result.retmsg)
-        }
-    }else{
-        alertDialog("退出登录失败！")
-    }
-
 }

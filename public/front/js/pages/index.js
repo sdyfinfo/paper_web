@@ -1,7 +1,5 @@
 
 $(document).ready(function () {
-    $('.dowebok').liMarquee();
-    recentOrderGet();
    if(login == 1){
        if( free == 'false' || !free ){
            $("#free-btn").addClass("el-active");
@@ -223,34 +221,6 @@ function paperSubmit(data){
     });
 }
 
-//获取近期订单
-function recentOrderGet(){
-    App.blockUI({target:'.paper-container',boxed: true});
-    $.ajax({
-        type: "post",
-        contentType: "application/json",
-        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-        url: webUrl + "paper/show",    //请求发送到TestServlet处
-        data: sendMessageEdit({}),
-        dataType: "json",        //返回数据形式为json
-        success: function (result) {
-            console.info("recentOrderGet:" + JSON.stringify(result));
-            App.unblockUI('.paper-container');
-            var order = "";
-            for(var i=0 ;i<result.length; i++){
-                order += '<span>' + result[i].title + "-" + result[i].nickname + " " +  result[i].ordertime+ '</span>';
-            }
-            if(result.length != 0){
-                $(".dowebok").html(order);
-                $('.dowebok').liMarquee();
-            }
-        },
-        error: function (errorMsg) {
-            console.info("recentOrderGet-error:" + JSON.stringify(errorMsg));
-            App.unblockUI('.paper-container');
-        }
-    });
-}
 var PaperSubmit = function() {
     var handleRegister = function() {
         var validator = $('.paper-form').validate({

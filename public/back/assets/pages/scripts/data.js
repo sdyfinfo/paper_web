@@ -168,3 +168,177 @@ function cardDownload(data,callback){
         }
     });
 }
+
+//新闻类型获取
+function newsTypeDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    if(data == null){
+        data = {newstype: "", currentpage: "", pagesize: "", startindex: "0", draw: 1}
+    }
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/type/query",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsTypeDataGet:" + JSON.stringify(result));
+            getNewsTypeDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("newsTypeDataGet-error:" + JSON.stringify(errorMsg));
+            getNewsTypeDataEnd(false, "", callback);
+        }
+    });
+}
+
+//新闻类型增加
+function newsTypeAdd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/type/add",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsTypeAdd:" + JSON.stringify(result));
+            newsTypeInfoEditEnd(true, result, NEWSTYPEADD);
+        },
+        error: function (errorMsg) {
+            console.info("newsTypeAdd-error:" + JSON.stringify(errorMsg));
+            newsTypeInfoEditEnd(false, "", NEWSTYPEADD);
+        }
+    });
+}
+
+//新闻类型编辑
+function newsTypeEdit(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/type/edit",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsTypeEdit:" + JSON.stringify(result));
+            newsTypeInfoEditEnd(true, result, NEWSTYPEEDIT);
+        },
+        error: function (errorMsg) {
+            console.info("newsTypeEdit-error:" + JSON.stringify(errorMsg));
+            newsTypeInfoEditEnd(false, "", NEWSTYPEEDIT);
+        }
+    });
+}
+
+//新闻类型删除
+function newsTypeDelete(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/type/delete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsTypeDelete:" + JSON.stringify(result));
+            newsTypeInfoEditEnd(true, result, NEWSTYPEDELETE);
+        },
+        error: function (errorMsg) {
+            console.info("newsTypeDelete-error:" + JSON.stringify(errorMsg));
+            newsTypeInfoEditEnd(false, "", NEWSTYPEDELETE);
+        }
+    });
+}
+
+//新闻内容获取
+function newsContentDataGet(data, callback){
+    App.blockUI({target: '#lay-out',boxed: true});
+    if(data == null){
+        data = {newstype: "", currentpage: "", pagesize: "", startindex: "0", draw: 1}
+    }
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/content/query",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsContentDataGet:" + JSON.stringify(result));
+            getNewsContentDataEnd(true, result, callback);
+        },
+        error: function (errorMsg) {
+            console.info("newsContentDataGet-error:" + JSON.stringify(errorMsg));
+            getNewsContentDataEnd(false, "", callback);
+        }
+    });
+}
+
+//新闻增加
+function newsContentAdd(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/content/add",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsContentAdd:" + JSON.stringify(result));
+            newsContentInfoEditEnd(true, result, NEWSTYPEADD);
+        },
+        error: function (errorMsg) {
+            console.info("newsContentAdd-error:" + JSON.stringify(errorMsg));
+            newsContentInfoEditEnd(false, "", NEWSTYPEADD);
+        }
+    });
+}
+
+//新闻编辑
+function newsContentEdit(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/content/edit",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsContentEdit:" + JSON.stringify(result));
+            newsContentInfoEditEnd(true, result, NEWSTYPEEDIT);
+        },
+        error: function (errorMsg) {
+            console.info("newsContentEdit-error:" + JSON.stringify(errorMsg));
+            newsContentInfoEditEnd(false, "", NEWSTYPEEDIT);
+        }
+    });
+}
+
+//新闻删除
+function newsContentDelete(data){
+    App.blockUI({target:'#lay-out',boxed: true});
+    $.ajax({
+        type: "post",
+        contentType: "application/json",
+        async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url: webUrl + "new/news/content/delete",    //请求发送到TestServlet处
+        data: sendMessageEdit(DEFAULT, data),
+        dataType: "json",        //返回数据形式为json
+        success: function (result) {
+            console.info("newsContentDelete:" + JSON.stringify(result));
+            newsContentInfoEditEnd(true, result, NEWSTYPEDELETE);
+        },
+        error: function (errorMsg) {
+            console.info("newsContentDelete-error:" + JSON.stringify(errorMsg));
+            newsContentInfoEditEnd(false, "", NEWSTYPEDELETE);
+        }
+    });
+}

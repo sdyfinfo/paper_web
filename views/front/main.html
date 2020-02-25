@@ -17,6 +17,7 @@
     <link href="/public/front/css/vendors.css" rel="stylesheet">
     <link href="/public/front/css/style.css?v=4.1.0" rel="stylesheet">
     <link href="/public/front/css/biye.css" rel="stylesheet">
+    <link href="/public/front/css/liMarquee.css" rel="stylesheet">
 
     <!--[if lt IE 9]>
     <script src="/public/front/js/html5shiv.min.js"></script>
@@ -62,11 +63,118 @@
 
 </head>
 <body>
-    {%block main%}{%endblock%}
+    <div class="paper-container">
+        <div class="top row">
+            <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
+            <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="margin: 10px 0 10px;">
+                <div class="biye-logo">
+                    <div>
+                        <img src="/public/front/images/logo.png">
+                    </div>
+                    <div>
+                        {%if !openid %}
+                        <div class="login-btn" id="login-btn" style="margin-top: 10px">快捷登录</div>
+                        {% endif %}
+                        {%if openid %}
+                        <div>
+                            <img src="{{ headimgurl }}" style="width: 50px; height: 50px; margin-top: -10px; border-radius: 50%!important;">
+                            <span>{{ nickname }}</span>
+                        </div>
+                        <div style="margin-top: 5px; color:#e02222; display: none" id="endtime">会员到期日：<span id="time"> </span></div>
+                        <div style="margin-top: 5px; color:#e02222; display: none" id="novip">非VIP会员</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div style="background-color: #F5F5F5; margin-top: -8px; padding-top: 10px">
+            <div class="title row" style="margin-bottom: 10px">
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
+                <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12">
+                    <div class="recent-order">
+                        <div>近期订单</div>
+                        <div class="roll-div">
+                            <div class="dowebok">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="title row">
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
+                <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="z-index: 1">
+                    <div class="banner">
+                        <div class="head-brand">
+                            <div>
+                                <div class="brand-img"></div>
+                            </div>
+                            <div>
+                                <div class="brand-img"></div>
+                            </div>
+                            <div>
+                                <div class="brand-img"></div>
+                            </div>
+                            <div>
+                                <div class="brand-img"></div>
+                            </div>
+                            <div>
+                                <div></div>
+                            </div>
+                        </div>
+                        <div class="head-visit">
+                            <div>
+                                <span>访问量：</span>
+                                <span data-counter="counterup" data-value="{{ visit }}">{{ visit }}</span>
+                            </div>
+                            <div>
+                                <span>点赞数：</span>
+                                <span data-counter="counterup" data-value="{{ zan }}" id="zan-number">{{ zan }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="padding-left: 0; margin-left: -60px; z-index: 0">
+                    <div style="margin-top: 20px; cursor: pointer;" id="share"><img src="/public/front/images/share.png"></div>
+
+                    <div style="margin-top: 20px; cursor: pointer;" id="zan"><img src="/public/front/images/zan.png" ></div>
+                </div>
+            </div>
+
+            {%block main%}{%endblock%}
+        </div>
+
+        <div class="foot">
+            <div class="row1">
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #272D36;"></div>
+                <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="padding: 0;background-color: #272D36;text-align: center">
+                    <img src="/public/front/images/footer.png" style="max-width: 1080px">
+                </div>
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #272D36"></div>
+            </div>
+            <div class="row1">
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #f60"></div>
+                <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="padding: 0;background-color: #f60;text-align: center">
+                    <img src="/public/front/images/footer2.png" style="max-width:  1080px">
+                </div>
+                <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #f60"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/public/front/js/jquery.liMarquee.js"></script>
+    <script src="/public/front/plugins/counterup/jquery.counterup.min.js"></script>
+    <script src="/public/front/plugins/counterup/jquery.waypoints.min.js"></script>
     <script src="/public/front/js/pages/common.js"></script>
     <script>
         $(document).ready(function(){
             vipTimeDisplay();
+            $('.dowebok').liMarquee();
+            recentOrderGet();
+            //设定滚动部分的宽度
+            var width = $(".recent-order").width() - 130;
+            $(".roll-div").width(width);
             var url = window.location.href;
             if(window.location.pathname == "/login"){
                 var form = document.createElement('form');
@@ -75,7 +183,36 @@
                 $(document.body).append(form);
                 form.submit();
             }
-        })
+        });
+
+        //获取近期订单
+        function recentOrderGet(){
+            App.blockUI({target:'.paper-container',boxed: true});
+            $.ajax({
+                type: "post",
+                contentType: "application/json",
+                async: true,           //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                url: webUrl + "paper/show",    //请求发送到TestServlet处
+                data: sendMessageEdit({}),
+                dataType: "json",        //返回数据形式为json
+                success: function (result) {
+                    console.info("recentOrderGet:" + JSON.stringify(result));
+                    App.unblockUI('.paper-container');
+                    var order = "";
+                    for(var i=0 ;i<result.length; i++){
+                        order += '<span>' + result[i].title + "-" + result[i].nickname + " " +  result[i].ordertime+ '</span>';
+                    }
+                    if(result.length != 0){
+                        $(".dowebok").html(order);
+                        $('.dowebok').liMarquee();
+                    }
+                },
+                error: function (errorMsg) {
+                    console.info("recentOrderGet-error:" + JSON.stringify(errorMsg));
+                    App.unblockUI('.paper-container');
+                }
+            });
+        }
     </script>
 </body>
 </html>

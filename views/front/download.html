@@ -12,60 +12,7 @@
         padding: 0 12px!important;
     }
 </style>
-<div class="paper-container">
-    <div class="top row">
-        <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="margin: 20px 0 10px;">
-            {%if !openid %}
-            <div class="login-btn" id="login-btn">快捷登录</div>
-            {% endif %}
-            {%if openid %}
-            <div>
-                <img src="{{ headimgurl }}" style="width: 50px; height: 50px; margin-top: -10px; border-radius: 50%!important;">
-                <span>{{ nickname }}</span>
-            </div>
-            <div style="margin-top: 5px; color:#e02222; display: none" id="endtime">会员到期日：<span id="time"> </span></div>
-            <div style="margin-top: 5px; color:#e02222; display: none" id="novip">非VIP会员</div>
-            {% endif %}
-        </div>
-    </div>
-    <div class="title row">
-        <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
-        <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12">
-            <div style="background: white no-repeat center center; height:180px; background-size: cover; background-image: url(/public/front/images/title.jpg)">
-                <div class="head-brand">
-                    <div>
-                        <div class="brand-img"></div><div>品牌商标</div>
-                    </div>
-                    <div>
-                        <div class="brand-img"></div><div>软著作</div>
-                    </div>
-                    <div>
-                        <div class="brand-img"></div><div>天猫品牌</div>
-                    </div>
-                    <div>
-                        <div class="brand-img"></div><div>报告展示</div>
-                    </div>
-                    <div>
-                        <div class="brand-img"></div><div>客户好评</div>
-                    </div>
-                </div>
-                <div class="head-visit">
-                    <div>
-                        <span>访问量：</span>
-                        <span data-counter="counterup" data-value="{{ visit }}">{{ visit }}</span>
-                    </div>
-                    <div>
-                        <span>点赞数：</span>
-                        <span data-counter="counterup" data-value="{{ zan }}" id="zan-number">{{ zan }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0">
-            <img src="/public/front/images/zan.png" style="width: 50px; margin-top: 130px; cursor: pointer" id="zan">
-        </div>
-    </div>
+
     <div class="main row" style="margin-top: 10px; min-height: 562px">
         <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0"></div>
         <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12">
@@ -80,8 +27,8 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11"  style="width: 75.16667%; padding-left: 0" >
-                    <div style="margin-top: 10px;">
+                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11"  style="width: 77.5%; padding-left: 0; background-color: white" >
+                    <div style="padding: 20px 50px">
                         <div class="paper-tips" style="border-top: 0; padding-top: 0; border-bottom: 1px solid #b2b2b2">
                             <div>温馨提示</div>
                             <div>
@@ -120,23 +67,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="foot" style="margin-top: 15px">
-        <div class="row1">
-            <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #272D36;"></div>
-            <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="padding: 0;background-color: #272D36;text-align: center">
-                <img src="/public/front/images/footer.png" style="max-width: 1080px">
-            </div>
-            <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #272D36"></div>
-        </div>
-        <div class="row1">
-            <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #f60"></div>
-            <div class="col-lg-6 col-md-10 col-sm-10 col-xs-12" style="padding: 0;background-color: #f60;text-align: center">
-                <img src="/public/front/images/footer2.png" style="max-width:  1080px">
-            </div>
-            <div class="col-lg-3 col-md-1 col-sm-1 col-xs-0" style="background-color: #f60"></div>
         </div>
     </div>
     <!--处理中-->
@@ -181,7 +111,7 @@
             </div>
         </div>
     </div>
-</div>
+
 
 <script src="/public/front/plugins/counterup/jquery.counterup.min.js"></script>
 <script src="/public/front/plugins/counterup/jquery.waypoints.min.js"></script>

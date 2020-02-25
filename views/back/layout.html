@@ -56,9 +56,16 @@
             var menu = '{{ menu }}';
             var loginSucc = '{{ loginsucc }}';
             loginSucc = JSON.parse(loginSucc.replace(/&quot;/g, "\""));
+            var token = '{{token}}';
 
             //根据权限做成菜单，增加或者清除class，使点击的菜单处于选中状态
             jQuery(document).ready(function(){
+                if(menu != "main"){
+                    var text = $('.page-sidebar-menu').find('a[href="' + menu + '"]').children('.title').text();
+                    $('#menu_tips').html(text);
+                }else{
+                    localStorage.setItem("token", token);
+                }
                 makeMenu(userMenuList.menulist);
                 $(".page-sidebar-menu").html(menuMake);
                 if($('.page-sidebar-menu').children('.active') != $('.page-sidebar-menu').find('a[href="' + menu + '"]').parents('li.nav-item')){
@@ -71,13 +78,8 @@
                 $('.page-sidebar-menu').find('a[href="' + menu + '"]').parents().siblings('.nav-toggle').children('.arrow').addClass('open');
                 $('.page-sidebar-menu').find('a[href="' + menu + '"]').parents().siblings('.nav-toggle').append('<span class="selected"></span>');
                 //var text = '<li><a href="main">首页</a><i class="fa fa-circle"></i></li>';
-                if(menu != "main"){
-                    var text = $('.page-sidebar-menu').find('a[href="' + menu + '"]').children('.title').text();
-                    $('#menu_tips').html(text);
-                }
                 $("#fullname").text(loginSucc.userid);
-                $("#passowrd").attr("href","password?username=" + loginSucc.userid);
-                $("#main, #logo").attr("href","main?username=" + loginSucc.userid);
+                $("#logout").attr("href", "logout?username=" + loginSucc.userid);
             });
         </script>
     </head>
@@ -113,7 +115,7 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-default">
                                 <li>
-                                    <a href="password" id="passowrd">
+                                    <a href="javascript:;" id="password">
                                         <i class="icon-lock"></i> 修改密码 </a>
                                 </li>
                                 <li>
@@ -146,7 +148,7 @@
                         <ul class="page-breadcrumb">
                             <li>
                                 <i class="icon-home"></i>
-                                <a href="" id="main">首页</a>
+                                <a href="javascript:;" id="main">首页</a>
                                 <i class="fa fa-circle"></i>
                             </li>
                             <li>
