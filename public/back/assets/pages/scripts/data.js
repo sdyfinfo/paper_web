@@ -342,3 +342,23 @@ function newsContentDelete(data){
         }
     });
 }
+
+//获取新闻信息
+function getNewsContent(data,callback){
+    $.ajax({
+        type:"post",
+        contentType:"application/json",
+        async:true,        //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+        url:webUrl + "new/news/content/detail",  //请求发送到TestServlet处
+        data:sendMessageEdit(DEFAULT, data),
+        dataType:"json",      //返回数据形式为json
+        success:function(result){
+            console.info("getNewsContent:"+JSON.stringify(result));
+            getNewsContentEnd(true,result,callback);
+        },
+        error:function(errorMsg){
+            console.info("getNewsContent-error:"+ JSON.stringify(errorMsg));
+            getNewsContentEnd(false,"",callback);
+        }
+    });
+}

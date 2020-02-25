@@ -129,10 +129,10 @@ var userMenuList = {
                 {"menuid":"evaluation","menutype":0,sort:"0", power:"1", "menuname":"资金查询","url":"money", menuicon:"icon-home"},
             ]
         },
-        {"menuid":"news","menutype":1,sort:"0", power:"1", "menuname":"行业新闻","url":"", menuicon:"icon-envelope-letter",
+        {"menuid":"news","menutype":1,sort:"0", power:"1", "menuname":"行业新闻","url":"", menuicon:"icon-docs",
             "menulist":[
-                {"menuid":"newstype","menutype":0,sort:"0", power:"1", "menuname":"新闻分类","url":"newstype", menuicon:"icon-home"},
-                {"menuid":"newscontent","menutype":0,sort:"1", power:"1", "menuname":"新闻内容","url":"newscontent", menuicon:"icon-home"},
+                {"menuid":"newstype","menutype":0,sort:"0", power:"1", "menuname":"新闻分类","url":"newstype", menuicon:"icon-settings"},
+                {"menuid":"newscontent","menutype":0,sort:"1", power:"1", "menuname":"新闻内容","url":"newscontent", menuicon:"icon-note"},
             ]
         }
     ]

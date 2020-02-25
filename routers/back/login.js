@@ -148,6 +148,7 @@ router.post('/role',function(req,res,next){
     }
 });
 
+//修改密码
 router.post('/password',function(req,res,next){
     logger.info(req.url);
     var uname = req.body.username;
@@ -160,7 +161,7 @@ router.post('/password',function(req,res,next){
         res.redirect('/back/login');
     }
 });
-
+//获取微信用户
 router.post('/wxuser',function(req,res,next){
     logger.info(req.url);
     var uname = req.body.username;
@@ -173,7 +174,7 @@ router.post('/wxuser',function(req,res,next){
         res.redirect('/back/login');
     }
 });
-
+//会员卡信息
 router.post('/card',function(req,res,next){
     logger.info(req.url);
     var uname = req.body.username;
@@ -186,7 +187,7 @@ router.post('/card',function(req,res,next){
         res.redirect('/back/login');
     }
 });
-
+//订单信息
 router.post('/order',function(req,res,next){
     logger.info(req.url);
     var uname = req.body.username;
@@ -200,12 +201,38 @@ router.post('/order',function(req,res,next){
     }
 });
 
-
+//资金信息
 router.post('/money',function(req,res,next){
     logger.info(req.url);
     var uname = req.body.username;
     if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
         res.render('back/money/money', {
+            menu: req.url.substr(1),
+            loginsucc: req.session["ywtLogin" + uname]
+        });
+    }else{
+        res.redirect('/back/login');
+    }
+});
+//资金信息
+router.post('/newstype',function(req,res,next){
+    logger.info(req.url);
+    var uname = req.body.username;
+    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+        res.render('back/news/type', {
+            menu: req.url.substr(1),
+            loginsucc: req.session["ywtLogin" + uname]
+        });
+    }else{
+        res.redirect('/back/login');
+    }
+});
+//资金信息
+router.post('/newscontent',function(req,res,next){
+    logger.info(req.url);
+    var uname = req.body.username;
+    if(req.session["ywtUname" + uname]) {  //判断session 状态，如果有效，则返回主页，否则转到登录页面
+        res.render('back/news/content', {
             menu: req.url.substr(1),
             loginsucc: req.session["ywtLogin" + uname]
         });

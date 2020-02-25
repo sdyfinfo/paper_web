@@ -44,6 +44,7 @@ var NewsTypeTable = function () {
                 { "data": null},
                 { "data": "newstypeid", visible: false },
                 { "data": "newstype" },
+                { "data": "time" },
                 { "data": null }
             ],
             columnDefs: [
@@ -58,6 +59,20 @@ var NewsTypeTable = function () {
                     "data": null,
                     "render": function (data, type, row, meta) {
                         return meta.settings._iDisplayStart + meta.row + 1;  //行号
+                    }
+                },
+                {
+                    "targets": [4],
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return dateTimeFormat(data, "/");
+                    }
+                },
+                {
+                    "targets": [5],
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return '<a href="javascript:;" id="op_edit">编辑</a>'
                     }
                 }
             ],
@@ -226,6 +241,12 @@ function getNewsTypeDataEnd(flg, result, callback){
             alertDialog(result.message);
         }
     }else{
+        /*newsTypeList = [
+            {newstypeid:"1", newstype:"查重经验",time:"20191220111111"},
+            {newstypeid:"2", newstype:"论文修改",time:"20191220111111"},
+            {newstypeid:"3", newstype:"论文协作",time:"20191220111111"},
+        ];
+        tableDataSet(1, 3, 3, newsTypeList, callback);*/
         tableDataSet(0, 0, 0, [], callback);
         alertDialog("新闻类型信息获取失败！");
     }

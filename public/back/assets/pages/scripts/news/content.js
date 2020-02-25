@@ -8,7 +8,7 @@ var newsContentList = [];
 if (App.isAngularJsApp() === false) {
     jQuery(document).ready(function() {
         //百度富文本编辑器初始化
-        UE.getEditor("article", {
+        UE.getEditor("content", {
             toolbars: [[
                 'fullscreen', '|', 'undo', 'redo', '|',
                 'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
@@ -23,14 +23,15 @@ if (App.isAngularJsApp() === false) {
                 'searchreplace'
             ]],
             autoHeightEnabled: false,
-            initialFrameHeight: 300,
-            serverUrl: 'http://localhost:8080/fileUpload',  //此处请求服务器的地址
+            initialFrameHeight: 200,
+            serverUrl: webUrl + 'fileUpload',  //此处请求服务器的地址
             imageFieldName: "uploadFile",
             imageUrlPrefix: '',
             imageActionName: 'ajaxUpload',
             imageAllowFiles: [".png", ".jpg", ".jpeg", ".gif", ".bmp"],
             catcherUrlPrefix: '',
         });
+        newsTypeDataGet(null, null);
         NewsContentTable.init();
         NewsContentEdit.init();
     });
@@ -108,7 +109,14 @@ var NewsContentTable = function () {
                     "targets": [7],
                     "data": null,
                     "render": function (data, type, row, meta) {
-                        return dateTimeFormat(data);
+                        return dateTimeFormat(data, "/");
+                    }
+                },
+                {
+                    "targets": [10],
+                    "data": null,
+                    "render": function (data, type, row, meta) {
+                        return '<a href="javascript:;" id="op_edit">编辑</a>'
                     }
                 }
             ],
@@ -154,7 +162,7 @@ var NewsContentEdit = function() {
             focusInvalid: false, // do not focus the last invalid input
             ignore: "",
             rules: {
-                newstype: {
+                newstypeid: {
                     required: true
                 },
                 title: {
@@ -171,7 +179,7 @@ var NewsContentEdit = function() {
                 }
             },
             messages: {
-                newstype: {
+                newstypeid: {
                     required: "新闻类型必须输入"
                 },
                 title: {
@@ -219,6 +227,10 @@ var NewsContentEdit = function() {
             if ($('.register-form').validate().form()) {
                 var newsContent = $('.register-form').getFormData();
                 newsContent.content = UE.getEditor('content').getContent();
+                if(newsContent.content == ""){
+                    alertDialog("新闻内容必须输入！");
+                    return;
+                }
                 ////先上传LOGO
                 //如果头像发生了变化，先上传头像
                 //获取原来的头像
@@ -259,7 +271,7 @@ var NewsContentEdit = function() {
                 }
             }
         });
-        //新增新闻类型
+        //新增新闻
         $('#op_add').click(function() {
             validator.resetForm();
             $(".register-form").find(".has-error").removeClass("has-error");
@@ -268,14 +280,15 @@ var NewsContentEdit = function() {
                 .removeAttr("checked")
                 .removeAttr("selected");
             //清空图片
-            $("#newsurl").siblings("img").attr("src", "/public/manager/assets/pages/img/default.jpg");
+            $("#newsurl").siblings("img").attr("src", "/public/back/assets/pages/img/default.jpg");
             $("#newsurl").siblings("input[name=newsimage], input[name=oldimage]").val("");
             //清空文本框
+            UE.getEditor('content').setContent("", false);
 
             $("input[name=edittype]").val(NEWSADD);
-            $('#edit_news_type').modal('show');
+            $('#edit_news').modal('show');
         });
-        //编辑新闻类型
+        //编辑新闻
         $("#news_table").on('click', '#op_edit', function (e) {
             e.preventDefault();
             validator.resetForm();
@@ -290,10 +303,8 @@ var NewsContentEdit = function() {
                     newsContent = newsContentList[i];
                 }
             }
-            var options = { jsonValue: newsContent, exclude:exclude, isDebug: false};
-            $(".register-form").initForm(options);
-            $("input[name=edittype]").val(NEWSEDIT);
-            $('#edit_news_type').modal('show');
+            var data = {newsid: newsid};
+            getNewsContent(data, newsContent);
         });
     };
 
@@ -305,7 +316,6 @@ var NewsContentEdit = function() {
 }();
 
 var NewsContentDelete = function() {
-    //TODO:有人使用该新闻类型时，不应该删除
     $('#op_del').click(function() {
         var len = $(".checkboxes:checked").length;
         if(len < 1){
@@ -341,7 +351,7 @@ function getNewsContentDataEnd(flg, result, callback){
         }
     }else{
         tableDataSet(0, 0, 0, [], callback);
-        alertDialog("新闻类型信息获取失败！");
+        alertDialog("新闻信息获取失败！");
     }
 }
 
@@ -370,7 +380,7 @@ function newsContentInfoEditEnd(flg, result, type){
             $('#edit_news_type').modal('hide');
         }
     }
-    if(alert == "") alert = text + "新闻类型" + res + "！";
+    if(alert == "") alert = text + "新闻" + res + "！";
     App.unblockUI('#lay-out');
     alertDialog(alert);
 }
@@ -379,3 +389,75 @@ $("#op_inquiry").on("click", function(){
     //用户查询
     NewsContentTable.init();
 });
+
+$("#newsurl").change(function(){
+    var file = $(this).get(0).files[0];
+    var inputObj = $(this).siblings("input[name=newsimage]");
+    var imgObj = $(this).siblings("img");
+    inputObj.val(file);
+    if(file == undefined){
+        imgObj.attr("src", "/public/back/assets/pages/img/default.jpg");
+        inputObj.val("");
+        return;
+    }
+    var myimg = URL.createObjectURL(file);
+    var img = new Image();
+    img.src = myimg;
+    img.onload = function(){
+        if(img.width === 300 && img.height === 200){
+            imgObj.attr("src", myimg);
+        }else{
+            imgObj.attr("src", "/public/back/assets/pages/img/default.jpg");
+            inputObj.val("");
+            $("#newsurl").val("");
+            alertDialog("只能上传尺寸为300x200的图片！");
+        }
+    };
+});
+
+function getNewsContentEnd(flg, result, temp){
+    if(flg){
+        if (result && result.code == SUCCESS) {
+            var newsContent = result;
+            newsContent.newsid = temp.newsid;
+            var exclude = ["content"];
+            var options = { jsonValue: newsContent, exclude:exclude, isDebug: false};
+            $(".register-form").initForm(options);
+            //LOGO框赋值
+            $("#newsurl").siblings("img").attr("src", temp.newsurl);
+            $("#newsurl").siblings("input[name=newsimage], input[name=oldimage]").val(temp.newsurl);
+            //文本框赋值
+            UE.getEditor('content').setContent(newsContent.content, false);
+            $("input[name=edittype]").val(NEWSEDIT);
+            $('#edit_news').modal('show');
+        }else{
+            alertDialog("获取新闻内容失败！");
+        }
+    }else{
+        alertDialog("获取新闻内容失败！");
+    }
+}
+
+function getNewsTypeDataEnd(flg, result, callback) {
+    App.unblockUI('#lay-out');
+    /*flg = true;
+    result = {code:200, message:"", newstypelist:[
+        {newstypeid:"1", newstype:"查重经验",time:"20191220111111"},
+        {newstypeid:"2", newstype:"论文修改",time:"20191220111111"},
+        {newstypeid:"3", newstype:"论文协作",time:"20191220111111"},
+    ]};*/
+    if(flg){
+        if (result && result.code == SUCCESS) {
+            var newstypelist = result.newstypelist;
+            newsTypeSelectBuild($("#newstype, #newstypeadd"), newstypelist);
+        }
+    }
+}
+
+function newsTypeSelectBuild(id, list){
+    id.empty();
+    for (var i = list.length - 1;  i >=0 ; i--) {
+        id.prepend('<option value="' + list[i].newstypeid + '">' + list[i].newstype + '</option>');
+    }
+    id.prepend('<option value="" selected>请选择</option>');
+}
